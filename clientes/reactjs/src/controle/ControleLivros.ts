@@ -1,5 +1,15 @@
 import { Livro } from "../modelo/Livro";
 
+const baseUrl: String = "http://localhost:3030/api/livro";
+
+interface LivroMongo {
+  id: String | null;
+  codEditora: Number;
+  titulo: String;
+  resumo: String;
+  autores: String[];
+}
+
 export class ControleLivro {
   private livros: Livro[] = [
     {
@@ -28,7 +38,7 @@ export class ControleLivro {
     },
   ];
 
-  obterLivros() {
+  async obterLivros() {
     return this.livros;
   }
 
