@@ -7,7 +7,6 @@ import Menu from "./Menu";
 
 type PropsLinhaLivro = {
   livro: Livro;
-  acervo: ControleLivro
   carregando: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -15,9 +14,9 @@ type Props = {
   livros: ControleLivro;
 };
 
-/* const livros = new ControleLivro(); */
+const controleLivros = new ControleLivro();
 
-const LinhaLivro = ({ acervo, livro, carregando }: PropsLinhaLivro) => {
+const LinhaLivro = ({livro, carregando }: PropsLinhaLivro) => {
   const editora = new ControleEditora();
 
   return (
@@ -29,7 +28,7 @@ const LinhaLivro = ({ acervo, livro, carregando }: PropsLinhaLivro) => {
             type="button"
             className="btn btn-danger btn-sm"
             onClick={() => {
-              acervo.excluir(livro.codigo);
+              controleLivros.excluir(livro._id);
               carregando(true);
             }}
           >
@@ -55,11 +54,24 @@ const LinhaLivro = ({ acervo, livro, carregando }: PropsLinhaLivro) => {
 };
 
 export default function LivroLista({ livros }: Props) {
-  const [meusLivros, setMeusLivros] = useState<Livro[]>(livros.obterLivros());
+  const [meusLivros, setMeusLivros] = useState<Livro[]>([
+    {
+      _id: 1,
+      codEditora: 1,
+      titulo: "Sem cadastro",
+      resumo: "Sem cadastro",
+      autores: ["Sem cadastro"],
+    },
+  ]);
   const [carregando, setCarregando] = useState<boolean>(false);
 
+  async function obter() {
+    const retorno = await controleLivros.obterLivros();
+    setMeusLivros(retorno.acervo);
+  }
+
   useEffect(() => {
-    setMeusLivros(livros.obterLivros());
+    obter();
     setCarregando(false);
   }, [carregando]);
 
@@ -81,10 +93,9 @@ export default function LivroLista({ livros }: Props) {
             {meusLivros.map((livro) => {
               return (
                 <LinhaLivro
-                  key={livro.codigo}
-                  livro={livro} 
+                  key={livro._id}
+                  livro={livro}
                   carregando={setCarregando}
-                  acervo={livros}
                 />
               );
             })}
