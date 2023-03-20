@@ -1,6 +1,6 @@
 export class Livro {
   _id: number;
-  editora: number;
+  codEditora: number;
   titulo: string;
   resumo: string;
   autores: string[];
@@ -13,7 +13,7 @@ export class Livro {
     autores: string[]
   ) {
     this._id = codigo;
-    this.editora = codEditora;
+    this.codEditora = codEditora;
     this.titulo = titulo;
     this.resumo = resumo;
     this.autores = autores;

@@ -49,7 +49,6 @@ const LivroDados: NextPage = () => {
     });
 
     const retorno = await dados.json();
-    console.log(novoLivro);
 
     if (retorno._id) {
       router.push("/LivroLista");

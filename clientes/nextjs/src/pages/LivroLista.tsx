@@ -22,7 +22,7 @@ export default function LivroLista() {
     {
       _id: 1,
       titulo: "Sem dados",
-      editora: 1,
+      codEditora: 1,
       resumo: "Sem dados",
       autores: ["Nao tem"],
     },
