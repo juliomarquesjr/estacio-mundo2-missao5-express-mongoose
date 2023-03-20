@@ -31,25 +31,27 @@ const LivroDados: NextPage = () => {
   async function cadastrarLivro(event: React.FormEvent) {
     event.preventDefault();
 
-    const baseURL = "http://localhost:3000/api/livros";
+    const baseURL = "http://localhost:3030/api/livro";
     const novoLivro = {
-      livro: {
-        codigo: 1,
-        editora: editora,
-        titulo: titulo,
-        resumo: resumo,
-        autores: [autores],
-      },
+      codEditora: editora,
+      titulo: titulo,
+      resumo: resumo,
+      autores: [autores],
     };
 
     const dados = await fetch(baseURL, {
       method: "POST",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(novoLivro),
     });
 
     const retorno = await dados.json();
+    console.log(novoLivro);
 
-    if (retorno.length > 0) {
+    if (retorno._id) {
       router.push("/LivroLista");
     }
   }
