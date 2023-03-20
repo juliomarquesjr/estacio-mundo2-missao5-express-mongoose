@@ -13,6 +13,7 @@ export default function LivroDados({ livros }: Props) {
   const [titulo, setTitulo] = useState<string>("");
   const [resumo, setResumo] = useState<string>("");
   const [editora, setEditora] = useState<number>(1);
+  const [autores, setAutores] = useState<string>("");
 
   const navigate = useNavigate();
   const todasEditoras = new ControleEditora();
@@ -20,7 +21,7 @@ export default function LivroDados({ livros }: Props) {
   function cadastrarLivro(event: React.FormEvent) {
     event.preventDefault();
 
-    const novoLivro = new Livro(1, editora, titulo, resumo, ["Julio"]);
+    const novoLivro = new Livro(1, editora, titulo, resumo, [autores]);
     livros.incluir(novoLivro);
     navigate("/catalogo");
   }
@@ -41,6 +42,7 @@ export default function LivroDados({ livros }: Props) {
               onChange={(event) => setTitulo(event.target.value)}
               className="form-control"
               placeholder="Titulo do livro"
+              required
             />
           </div>
           {/* Input Titulo: Fim */}
@@ -54,6 +56,7 @@ export default function LivroDados({ livros }: Props) {
               onChange={(event) => setResumo(event.target.value)}
               className="form-control"
               rows={3}
+              required
             ></textarea>
           </div>
           {/* Text Area Resumo: Fim */}
@@ -81,7 +84,16 @@ export default function LivroDados({ livros }: Props) {
           {/* TextArea Autores: Inicio */}
           <div className="form-group mt-2">
             <label htmlFor="autores">Autores (1 por linha)</label>
-            <textarea id="autores" className="form-control" rows={3}></textarea>
+            <textarea
+              id="autores"
+              className="form-control"
+              value={autores}
+              onChange={(value) => {
+                setAutores(value.target.value);
+              }}
+              rows={3}
+              required
+            ></textarea>
           </div>
           {/* Text Area Autores: Fim */}
 

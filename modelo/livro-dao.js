@@ -7,6 +7,7 @@ class LivroController {
   }
 
   async incluir(req, res) {
+    console.log(req.body)
     const novoLivro = await LivroModel.create(req.body);
     return res.status(200).json(novoLivro);
   }
