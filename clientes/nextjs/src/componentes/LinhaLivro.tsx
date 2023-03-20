@@ -4,11 +4,23 @@ import { Editora } from "@/classes/modelo/Editora";
 
 interface LinhaLivroProps {
   livro: Livro;
-  excluir: (cod: number) => Promise<void>;
+  setCarregando: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function LinhaLivro({ livro, excluir }: LinhaLivroProps) {
+
+
+export default function LinhaLivro({ livro, setCarregando }: LinhaLivroProps) {
   const [editora, setEditora] = useState<string>("");
+
+  async function excluirLivro(cod: Number) {
+    const baseURL = "http://localhost:3030/api/livro";
+    const dados = await fetch(`${baseURL}/${cod}`, {
+      method: "DELETE",
+    });
+
+    console.log(dados)
+    setCarregando(true);
+  };
 
   async function consultaEditora() {
     const baseURL = "http://localhost:3000/api/editoras";
@@ -35,7 +47,7 @@ export default function LinhaLivro({ livro, excluir }: LinhaLivroProps) {
             type="button"
             className="btn btn-danger btn-sm"
             onClick={() => {
-              excluir(livro.codigo);
+              excluirLivro(livro._id)
             }}
           >
             Excluir

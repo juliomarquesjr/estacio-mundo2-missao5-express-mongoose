@@ -6,7 +6,7 @@ import { Livro } from "@/classes/modelo/Livro";
 
 import styles from "../styles/Home.module.css";
 
-const baseURL = "http://localhost:3000/api/livros";
+const baseURL = "http://localhost:3030/api/livro";
 
 export default function LivroLista() {
   async function obter() {
@@ -14,35 +14,20 @@ export default function LivroLista() {
       method: "GET",
     });
 
-    const retorno: Livro[] = await dados.json();
-    setMeusLivros(retorno);
+    const retorno = await dados.json();
+    setMeusLivros(retorno.acervo);
   }
 
   const [meusLivros, setMeusLivros] = useState<Livro[]>([
     {
+      _id: 1,
       titulo: "Sem dados",
       editora: 1,
-      codigo: 1,
       resumo: "Sem dados",
       autores: ["Nao tem"],
     },
   ]);
   const [carregando, setCarregando] = useState<boolean>(false);
-
-  /* EM DESENVOLVIMENTO */
-  const excluirLivro = async (cod: number) => {
-    /* console.log("Código Recebido: " + cod); */
-    const baseURL = "http://localhost:3000/api/livros";
-    const dados = await fetch(baseURL, {
-      method: "DELETE",
-      body: JSON.stringify({ codigo_livro: cod }),
-    });
-
-    setCarregando(true);
-
-    console.log(dados);
-  };
-  /* EM DESENVOLVIMENTO */
 
   useEffect(() => {
     obter();
@@ -68,9 +53,9 @@ export default function LivroLista() {
             {meusLivros.map((livro) => {
               return (
                 <LinhaLivro
-                  key={livro.codigo}
+                  key={livro._id}
                   livro={livro}
-                  excluir={excluirLivro}
+                  setCarregando={setCarregando}
                 />
               );
             })}
